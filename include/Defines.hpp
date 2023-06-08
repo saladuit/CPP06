@@ -13,7 +13,4 @@
 #ifndef DEFINES_HPP
 #define DEFINES_HPP
 
-#define MAX_GRADE 1
-#define MIN_GRADE 150
-
 #endif
