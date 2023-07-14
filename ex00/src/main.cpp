@@ -12,18 +12,14 @@
 
 #include <ScalarConverter.hpp>
 
-int main()
+int main(int argc, char **argv)
 {
-	ScalarConverter::convert("0");
-	ScalarConverter::convert("nan");
-	ScalarConverter::convert("nanf");
-	ScalarConverter::convert("inf");
-	ScalarConverter::convert("inff");
-	ScalarConverter::convert("infff");
-	ScalarConverter::convert("42");
-	ScalarConverter::convert("42.0");
-	ScalarConverter::convert("42.0f");
-	ScalarConverter::convert("42.42");
+	if (argc != 2)
+	{
+		std::cout << "Usage: ./convert [input]" << std::endl;
+		return (EXIT_FAILURE);
+	}
+	ScalarConverter::convert(argv[1]);
 	return (EXIT_SUCCESS);
 }
 

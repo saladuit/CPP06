@@ -15,6 +15,7 @@
 
 #include <Color.hpp>
 #include <Defines.hpp>
+#include <cmath>
 #include <cstdlib>
 #include <iostream>
 #include <string>
