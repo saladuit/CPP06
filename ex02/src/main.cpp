@@ -10,23 +10,33 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <Data.hpp>
-#include <Serializer.hpp>
+#include <A.hpp>
+#include <B.hpp>
+#include <C.hpp>
+
+#include <Base.hpp>
+
+#include <cstdlib>
 
 int main()
 {
-	Data data = {42, 3};
-	Data *ptr = &data;
+	Base *base = new Base();
+	Base *a = new A();
+	Base *b = new B();
+	Base *c = new C();
 
-	uintptr_t serialized = Serializer::serialize(ptr);
-	Data *deserialized = Serializer::deserialize(serialized);
-
-	if (ptr == deserialized)
-		std::cout << "Serialization and deserialization successful!"
-				  << std::endl;
-	else
-		std::cout << "Serialization and deserialization failed!" << std::endl;
-
+	base->identify(a);
+	base->identify(b);
+	base->identify(c);
+	std::cout << std::endl;
+	base->identify(*a);
+	base->identify(*b);
+	base->identify(*c);
+	std::cout << std::endl;
+	delete base;
+	delete a;
+	delete b;
+	delete c;
 	return (EXIT_SUCCESS);
 }
 
