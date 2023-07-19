@@ -41,6 +41,30 @@ Base *Base::generate(void)
 		return (new C);
 	}
 }
+
+void Base::identify(Base *p)
+{
+	if (dynamic_cast<A *>(p))
+		std::cout << Color::green << "A" << Color::reset << std::endl;
+	else if (dynamic_cast<B *>(p))
+		std::cout << Color::green << "B" << Color::reset << std::endl;
+	else if (dynamic_cast<C *>(p))
+		std::cout << Color::green << "C" << Color::reset << std::endl;
+}
+
+void Base::identify(Base &p)
+{
+	if (dynamic_cast<A *>(&p))
+		std::cout << Color::green << "A" << Color::reset << std::endl;
+	else if (dynamic_cast<B *>(&p))
+		std::cout << Color::green << "B" << Color::reset << std::endl;
+	else if (dynamic_cast<C *>(&p))
+		std::cout << Color::green << "C" << Color::reset << std::endl;
+}
 /* **************************Orthodox_Canonical_Form************************* */
+
+Base::~Base()
+{
+}
 
 /* ************************************************************************** */
