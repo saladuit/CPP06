@@ -10,128 +10,170 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <Color.hpp>
 #include <ScalarConverter.hpp>
 
 /* **************************Private_member_functions************************ */
 
-void ScalarConverter::printChar(char c)
+void ScalarConverter::printFromCharType(char c)
 {
-	std::cout << "char: ";
-	if (std::isprint(c))
-		std::cout << "'" << c << "'" << std::endl;
-	else
-		std::cout << "Non displayable" << std::endl;
+	std::cout << Color::green << "char: " << Color::reset;
+	ScalarConverter::printChar(c);
+	std::cout << Color::yellow << "int: " << Color::reset;
+	ScalarConverter::printInt(c);
+	std::cout << Color::yellow << "float: " << Color::reset;
+	ScalarConverter::printFloat(c);
+	std::cout << Color::yellow << "double: " << Color::reset;
+	ScalarConverter::printDouble(c);
 }
 
-void ScalarConverter::printInt(int i)
+void ScalarConverter::printFromIntType(int i)
 {
-	std::cout << "int: " << i << std::endl;
+	std::cout << Color::yellow << "char: " << Color::reset;
+	ScalarConverter::printChar(i);
+	std::cout << Color::green << "int: " << Color::reset;
+	ScalarConverter::printInt(i);
+	std::cout << Color::yellow << "float: " << Color::reset;
+	ScalarConverter::printFloat(i);
+	std::cout << Color::yellow << "double: " << Color::reset;
+	ScalarConverter::printDouble(i);
 }
 
-void ScalarConverter::printFloat(float f)
+void ScalarConverter::printFromFloatType(float f)
 {
-	std::cout << "float: " << f;
-	if (f - static_cast<int>(f) == 0)
-		std::cout << ".0";
-	std::cout << "f" << std::endl;
+	std::cout << Color::yellow << "char: " << Color::reset;
+	ScalarConverter::printChar(f);
+	std::cout << Color::yellow << "int: " << Color::reset;
+	ScalarConverter::printInt(f);
+	std::cout << Color::green << "float: " << Color::reset;
+	ScalarConverter::printFloat(f);
+	std::cout << Color::yellow << "double: " << Color::reset;
+	ScalarConverter::printDouble(f);
 }
 
-void ScalarConverter::printDouble(double d)
+void ScalarConverter::printFromDoubleType(double d)
 {
-	std::cout << "double: " << d;
-	if (d - static_cast<int>(d) == 0)
-		std::cout << ".0";
-	std::cout << std::endl;
+	std::cout << Color::yellow << "char: " << Color::reset;
+	ScalarConverter::printChar(d);
+	std::cout << Color::yellow << "int: " << Color::reset;
+	ScalarConverter::printInt(d);
+	std::cout << Color::yellow << "float: " << Color::reset;
+	ScalarConverter::printFloat(d);
+	std::cout << Color::green << "double: " << Color::reset;
+	ScalarConverter::printDouble(d);
 }
 
 void ScalarConverter::printImpossible()
 {
-	std::cout << "impossible" << std::endl;
+	std::cout << Color::red << "char: impossible" << Color::reset << std::endl
+			  << Color::red << "int: impossible" << Color::reset << std::endl
+			  << Color::red << "float: impossible" << Color::reset << std::endl
+			  << Color::red << "double: impossible" << Color::reset
+			  << std::endl;
 }
 
 /* **************************Public_member_functions************************* */
 
 void ScalarConverter::convert(const std::string &input)
 {
+	type_t type = detectType(input);
 	try
 	{
-		float f = std::stof(input);
-
-		if (std::isnan(f))
+		switch (type)
 		{
-			std::cout << "char: impossible" << std::endl;
-			std::cout << "int: impossible" << std::endl;
-			printFloat(f);
-			printDouble(static_cast<double>(f));
-		}
-		else
-		{
-			printChar(static_cast<char>(f));
-			printInt(static_cast<int>(f));
-			printFloat(f);
-			printDouble(static_cast<double>(f));
+		case CHAR:
+			printFromCharType(input[0]);
+			break;
+		case INT:
+			printFromIntType(std::stoi(input));
+			break;
+		case FLOAT:
+			printFromFloatType(std::stof(input));
+			break;
+		case DOUBLE:
+			printFromDoubleType(std::stod(input));
+			break;
+		case IMPOSSIBLE:
+			printImpossible();
+			break;
 		}
 	}
-	catch (const std::exception &e)
+	catch (std::exception &e)
 	{
-		if (input.length() == 1)
-		{
-			char c = input[0];
-			printChar(c);
-			printInt(c - '0');
-			printFloat(static_cast<float>(c - '0'));
-			printDouble(static_cast<double>(c - '0'));
-		}
-		else
-		{
-			std::cout << "char: impossible" << std::endl;
-			std::cout << "int: impossible" << std::endl;
-			std::cout << "float: impossible" << std::endl;
-			std::cout << "double: impossible" << std::endl;
-		}
+		printImpossible();
 	}
+}
+
+static bool all_digits(const std::string &input)
+{
+	for (size_t i = 0; i < input.length(); i++)
+		if (!std::isdigit(input[i]))
+			return (false);
+	return (true);
+}
+
+ScalarConverter::type_t ScalarConverter::detectType(const std::string &str)
+{
+	std::string input = str;
+	if (input.length() == 1 && !std::isdigit(input[0]))
+		return (CHAR);
+	if (input == "nan" || input == "inf" || input == "+inf" || input == "-inf")
+		return (DOUBLE);
+	if (input == "nanf" || input == "inff" || input == "+inff" ||
+		input == "-inff")
+		return (FLOAT);
+	if (input[0] == '+' || input[0] == '-')
+		input = input.substr(1);
+	if (input.length() >= 1 && all_digits(input))
+		return (INT);
+	if (input.find('.') == input.npos)
+		return (IMPOSSIBLE);
+	if (input.find('.') != input.rfind('.'))
+		return (IMPOSSIBLE);
+	if (input.length() >= 2 && all_digits(input.substr(0, input.find('.'))) &&
+		all_digits(input.substr(input.find('.') + 1)))
+		return (DOUBLE);
+	if (input.length() >= 3 && all_digits(input.substr(0, input.find('.'))) &&
+		all_digits(
+			input.substr(0, input.length() - 1).substr(input.find('.') + 1)) &&
+		input[input.length() - 1] == 'f')
+		return (FLOAT);
+	return (IMPOSSIBLE);
 }
 
 /* **************************Orthodox_Canonical_Form************************* */
 
 ScalarConverter::ScalarConverter()
 {
-	std::cout << MAG << "ScalarConverter" GRN "'s default constructor called"
-			  << std::endl
-			  << *this << NC;
+	std::cout << Color::magenta << "ScalarConverter" << Color::green
+			  << "'s default constructor called" << std::endl
+			  << Color::reset;
 }
 
 ScalarConverter::ScalarConverter(const ScalarConverter &rhs)
 {
 	(void)rhs;
-	std::cout << MAG << "ScalarConverter" GRN "'s copy constructor called"
-			  << std::endl
-			  << *this << NC;
+	std::cout << Color::magenta << "ScalarConverter" << Color::green
+			  << "'s copy constructor called" << std::endl
+			  << Color::reset;
 }
 
 ScalarConverter &ScalarConverter::operator=(const ScalarConverter &rhs)
 {
 	if (this != &rhs)
 	{
-		std::cout << MAG
-				  << "ScalarConverter" GRN "'s assignment operator called"
-				  << std::endl
-				  << *this << NC;
+		std::cout << Color::magenta << "ScalarConverter" << Color::green
+				  << "'s assignment operator called" << std::endl
+				  << Color::reset;
 	}
 	return (*this);
 }
 
 ScalarConverter::~ScalarConverter()
 {
-	std::cout << BRED << " called " MAG "ScalarConverter" BRED " destructor at "
-			  << this << NC << std::endl;
-}
-
-std::ostream &operator<<(std::ostream &out,
-						 const ScalarConverter &scalarconverter)
-{
-	out << "ScalarConverter at " << &scalarconverter << std::endl;
-	return (out);
+	std::cout << Color::bold_red << " called " << Color::magenta
+			  << "ScalarConverter" << Color::bold_red << " destructor at "
+			  << this << Color::reset << std::endl;
 }
 
 /* ************************************************************************** */
