@@ -13,31 +13,54 @@
 #ifndef COLOR_H_
 #define COLOR_H_
 
-/* **********************************Reset*********************************** */
+#include <string>
 
-#define NC "\x1B[0m"
+class Color
+{
+  public:
+	static const std::string red;
+	static const std::string green;
+	static const std::string yellow;
+	static const std::string blue;
+	static const std::string magenta;
+	static const std::string cyan;
+	static const std::string white;
+	static const std::string black;
+
+	static const std::string bold_red;
+	static const std::string bold_green;
+	static const std::string bold_yellow;
+	static const std::string bold_blue;
+	static const std::string bold_magenta;
+	static const std::string bold_cyan;
+	static const std::string bold_white;
+	static const std::string bold_black;
+
+	static const std::string reset;
+};
 
 /* **********************************Normal********************************** */
 
-#define WHT "\x1B[0;37m" // White
-#define BLK "\x1B[0;30m" // Black
-#define RED "\x1B[0;31m" // Red
-#define MAG "\x1B[0;35m" // Magenta
-#define CYN "\x1B[0;36m" // Cyan
-#define BLU "\x1B[0;34m" // Blue
-#define GRN "\x1B[0;32m" // Green
-#define YEL "\x1B[0;33m" // Yellow
+const std::string Color::red = "\x1B[0;31m";
+const std::string Color::green = "\x1B[0;32m";
+const std::string Color::yellow = "\x1B[0;33m";
+const std::string Color::blue = "\x1B[0;34m";
+const std::string Color::magenta = "\x1B[0;35m";
+const std::string Color::cyan = "\x1B[0;36m";
+const std::string Color::white = "\x1B[0;37m";
+const std::string Color::black = "\x1B[0;30m";
+const std::string Color::reset = "\x1B[0m";
 
 /* ***********************************Bold*********************************** */
 
-#define BWHT "\x1B[1;37m" // White
-#define BBLK "\x1B[1;30m" // Black
-#define BRED "\x1B[1;31m" // Red
-#define BMAG "\x1B[1;35m" // Magenta
-#define BCYN "\x1B[1;36m" // Cyan
-#define BBLU "\x1B[1;34m" // Blue
-#define BGRN "\x1B[1;32m" // Green
-#define BYEL "\x1B[1;33m" // Yellow
+const std::string Color::bold_red = "\x1B[1;37m";
+const std::string Color::bold_green = "\x1B[1;30m";
+const std::string Color::bold_yellow = "\x1B[1;31m";
+const std::string Color::bold_blue = "\x1B[1;35m";
+const std::string Color::bold_magenta = "\x1B[1;36m";
+const std::string Color::bold_cyan = "\x1B[1;34m";
+const std::string Color::bold_white = "\x1B[1;32m";
+const std::string Color::bold_black = "\x1B[1;33m";
 
 /* ********************************Background******************************** */
 
