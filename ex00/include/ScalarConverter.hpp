@@ -13,6 +13,7 @@
 #ifndef SCALARCONVERTER_HPP
 #define SCALARCONVERTER_HPP
 
+#include <Color.hpp>
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
@@ -47,7 +48,8 @@ class ScalarConverter
 	template <typename T> static void printChar(T c)
 	{
 		if (std::isnan(c) || CHAR_MIN > c || c > CHAR_MAX)
-			std::cout << "impossible" << std::endl;
+			std::cout << Color::red << "impossible" << Color::reset
+					  << std::endl;
 		else if (std::isprint(static_cast<char>(c)))
 			std::cout << "'" << static_cast<char>(c) << "'" << std::endl;
 		else
@@ -57,7 +59,8 @@ class ScalarConverter
 	template <typename T> static void printInt(T i)
 	{
 		if (std::isnan(i) || INT_MIN > i || i > INT_MAX)
-			std::cout << "impossible" << std::endl;
+			std::cout << Color::red << "impossible" << Color::reset
+					  << std::endl;
 		else
 			std::cout << static_cast<int>(i) << std::endl;
 	}
