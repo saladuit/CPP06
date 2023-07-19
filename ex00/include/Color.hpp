@@ -13,32 +13,31 @@
 #ifndef COLOR_H_
 #define COLOR_H_
 
-/* **********************************Reset*********************************** */
+#include <string>
 
-#define NC "\x1B[0m"
+class Color
+{
+  public:
+	static const std::string red;
+	static const std::string green;
+	static const std::string yellow;
+	static const std::string blue;
+	static const std::string magenta;
+	static const std::string cyan;
+	static const std::string white;
+	static const std::string black;
 
-/* **********************************Normal********************************** */
+	static const std::string bold_red;
+	static const std::string bold_green;
+	static const std::string bold_yellow;
+	static const std::string bold_blue;
+	static const std::string bold_magenta;
+	static const std::string bold_cyan;
+	static const std::string bold_white;
+	static const std::string bold_black;
 
-#define WHT "\x1B[0;37m" // White
-#define BLK "\x1B[0;30m" // Black
-#define RED "\x1B[0;31m" // Red
-#define MAG "\x1B[0;35m" // Magenta
-#define CYN "\x1B[0;36m" // Cyan
-#define BLU "\x1B[0;34m" // Blue
-#define GRN "\x1B[0;32m" // Green
-#define YEL "\x1B[0;33m" // Yellow
-
-/* ***********************************Bold*********************************** */
-
-#define BWHT "\x1B[1;37m" // White
-#define BBLK "\x1B[1;30m" // Black
-#define BRED "\x1B[1;31m" // Red
-#define BMAG "\x1B[1;35m" // Magenta
-#define BCYN "\x1B[1;36m" // Cyan
-#define BBLU "\x1B[1;34m" // Blue
-#define BGRN "\x1B[1;32m" // Green
-#define BYEL "\x1B[1;33m" // Yellow
-
+	static const std::string reset;
+};
 /* ********************************Background******************************** */
 
 #define BGWHT "\x1B[1;47m" // White
