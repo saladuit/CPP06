@@ -13,8 +13,6 @@
 #ifndef SCALARCONVERTER_HPP
 #define SCALARCONVERTER_HPP
 
-#include <Color.hpp>
-#include <Defines.hpp>
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
@@ -30,15 +28,57 @@ class ScalarConverter
 	static void convert(const std::string &input);
 
   private:
-	static void printChar(char c);
-	static void printInt(int i);
-	static void printFloat(float f);
-	static void printDouble(double d);
+	enum type_t
+	{
+		CHAR,
+		INT,
+		FLOAT,
+		DOUBLE,
+		IMPOSSIBLE
+	};
+	static type_t detectType(const std::string &input);
+	static void printFromCharType(char c);
+	static void extracted(int &i);
+	static void printFromIntType(int i);
+	static void printFromFloatType(float f);
+	static void printFromDoubleType(double d);
 	static void printImpossible();
-};
 
-std::ostream &operator<<(std::ostream &out,
-						 const ScalarConverter &scalarconverter);
+	template <typename T> static void printChar(T c)
+	{
+		if (std::isnan(c) || CHAR_MIN > c || c > CHAR_MAX)
+			std::cout << "impossible" << std::endl;
+		else if (std::isprint(static_cast<char>(c)))
+			std::cout << "'" << static_cast<char>(c) << "'" << std::endl;
+		else
+			std::cout << "Non displayable" << std::endl;
+	}
+
+	template <typename T> static void printInt(T i)
+	{
+		if (std::isnan(i) || INT_MIN > i || i > INT_MAX)
+			std::cout << "impossible" << std::endl;
+		else
+			std::cout << static_cast<int>(i) << std::endl;
+	}
+
+	template <typename T> static void printFloat(T f)
+	{
+		std::cout << static_cast<float>(f);
+		if (f - static_cast<int>(f) == 0)
+			std::cout << ".0";
+		std::cout << "f";
+		std::cout << std::endl;
+	}
+
+	template <typename T> static void printDouble(T d)
+	{
+		std::cout << static_cast<double>(d);
+		if (d - static_cast<int>(d) == 0)
+			std::cout << ".0";
+		std::cout << std::endl;
+	}
+};
 
 #endif
 
